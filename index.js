@@ -97,14 +97,26 @@ if( fs.existsSync(EW11) ) {
 	};
 
 	let socket = connect({host:EW11_HOST, port:EW11_PORT});
-    	socket.on('connect', () => console.log(`EW11 - connected [${EW11_HOST}:${EW11_PORT}]`));
-    	socket.on('end', () => console.log('EW11 - disconnected.')); 
-    	socket.on('error', err => {
+		socket.on('connect', () => {
+			console.log(`${ moment().format("YYYY년 MM월 DD일 HH:mm:ss") }`);
+			console.log(`EW11 - connected [${EW11_HOST}:${EW11_PORT}]`);
+		});
+		socket.on('end', () => {
+			console.log(`${ moment().format("YYYY년 MM월 DD일 HH:mm:ss") }`);
+			console.log('EW11 - disconnected.');
+		}); 
+		socket.on('error', err => {
+			console.log(`${ moment().format("YYYY년 MM월 DD일 HH:mm:ss") }`);
 			console.log('EW11 - error');
 			console.error(err);
 			process.exit(0);
 		});
-    	socket.on('timeout', () => console.log('EW11 - connection timeout.'));
+		socket.on('timeout', () => {
+			console.log(`${ moment().format("YYYY년 MM월 DD일 HH:mm:ss") }`);
+			console.log('EW11 - connection timeout.');
+			socket.end();
+			process.exit(0);
+		});
 
 		socket.setTimeout(10000);
 		socket.setKeepAlive(true, 9000);
